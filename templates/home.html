@@ -20,7 +20,7 @@
           {{featured.short_description}}
         </p>
         <p class="lead mb-0">
-          <a href="#" class="text-white font-weight-bold"
+          <a href="{% url 'slug' featured.slug %}" class="text-white font-weight-bold"
             >Continue reading...</a
           >
         </p>
@@ -41,7 +41,7 @@
         <div class="col-md-6">
           <div class="card border-0">
             <div class="card-body">
-              <h3>{{featured.title}}</h3>
+              <a href="{% url 'slug' featured.slug %}"style="text-decoration:none; color:black"><h3>{{featured.title}}</h3></a>
               <small class="mb-1 text-muted">{{featured.created_at | timesince}} ago | {{featured.author}}</small>
               <p class="card-text">
                 {{featured.short_description}}
@@ -91,16 +91,22 @@
             </p>
           </div>
 
-          <div class="p-3">
-            <h4 class="font-italic">Follow Us</h4>
-            <ol class="list-unstyled">
-              <li><a href="#">GitHub</a></li>
-              <li><a href="#">LinkedIn</a></li>
-            </ol>
-          </div>
-        </aside>
-        <!-- /.blog-sidebar -->
-      </div>
+         
+         {% if links %}
+         <div class="p-3">
+          <h4 class="font-italic">Follow Us</h4>
+          <ol class="list-unstyled">
+            
+            {% for link in links  %}
+            <li><a href="#" target = "_blank">{{link.platform}}</a></li>
+            {% endfor %}
+          </ol>
+        </div>
+      </aside>
+      <!-- /.blog-sidebar -->
+    </div>
+         {% endif %}
+          
       <!-- /.row -->
     </main>
     <!-- /.container -->
