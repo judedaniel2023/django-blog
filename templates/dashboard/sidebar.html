@@ -5,16 +5,18 @@
       class="nav-link text-dark {% if request.path == '/dashboard/' %} bg-warning {% endif %}"
       >Dashboard</a
     >
-    <a
-      href="{% url 'categories' %}"
+
+  {% if perms.auth.view_user %}
+  <a href="{% url 'users' %}"
+  class="nav-link text-dark {% if '/users/' in request.path %} bg-warning {% endif %}">Users</a>
+  {% endif %}
+
+  <a href="{% url 'categories' %}"
       class="nav-link text-dark {% if '/categories/' in request.path %} bg-warning {% endif %}"
-      >Categories</a
-    >
-    <a
+   >Categories</a>
+  <a
       href="{% url 'posts' %}"
-      class="nav-link text-dark {% if '/blogs/' in request.path %} bg-warning {% endif %}"
-      >Blogs</a
-    >
-    <a href="{% url 'logout' %}" class="nav-link text-dark">Logout</a>
+      class="nav-link text-dark {% if '/blogs/' in request.path %} bg-warning {% endif %}">Blogs</a>
+  <a href="{% url 'logout' %}" class="nav-link text-dark">Logout</a>
   </div>
 </div>
