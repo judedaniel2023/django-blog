@@ -4,9 +4,10 @@ from django.db.models import Q
 
 from blog_main.forms import RegistrationForm
 
-from .models import Blog, Category
+from .models import Blog, Category, Comment
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 
@@ -20,7 +21,15 @@ def posts_by_category(request, category_id):
 
 def blogs(request, slug):
     blog = get_object_or_404(Blog, slug=slug, status=1)
-    return render(request, 'blogs.html', {'blog':blog})
+    if request.method == 'POST':
+        comment = Comment()
+        comment.user = request.user
+        comment.blog = blog
+        comment.comment = request.POST['comment']
+        comment.save()
+        return HttpResponseRedirect(request.path_info)
+    comments = Comment.objects.filter(blog=blog)
+    return render(request, 'blogs.html', {'blog':blog, 'comments':comments, 'count':comments.count()})
 
 
 def search(request):
